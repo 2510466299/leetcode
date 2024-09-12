@@ -1,0 +1,44 @@
+/*
+ * @lc app=leetcode.cn id=2 lang=cpp
+ *
+ * [2] 两数相加
+ */
+
+// @lc code=start
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+       ListNode *head=new ListNode(0);
+       ListNode *p=l1,*q=l2,*curr=head;
+       int carry=0;
+       while(p!=nullptr||q!=nullptr){
+            int x=(p!=nullptr)?p->val:0;
+            int y=(q!=nullptr)?q->val:0;
+            int num=x+y+carry;
+            carry=num/10;
+            curr->next=new ListNode(num%10);
+            curr=curr->next;
+            if(q!=nullptr)q=q->next;
+            if(p!=nullptr)p=p->next;
+       }
+       if(carry==1){
+        curr->next=new ListNode(carry);
+       }
+       ListNode *result=head->next;
+       delete head;
+       return result;
+        
+    }
+};
+// @lc code=end
+
