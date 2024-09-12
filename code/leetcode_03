@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int len = s.size();  // 字符串长度
+        int right = 0;       // 表示窗口的左边界（实际上是右边界的记录器）
+        int maxlen = 0;      // 存储最大长度
+        vector<int> map(128, 0);  // 使用大小为128的vector存储每个字符最后出现位置的下一个位置
+
+        for (int left = 0; left < len; left++) {
+            // 以当前字符的上次记录位置更新右边界，确保窗口中没有重复字符
+            right = max(right, map[s[left]]);
+            // 更新当前字符的最新位置为当前索引+1
+            map[s[left]] = left + 1;
+            // 计算当前无重复字符的子串长度，并更新最大长度
+            maxlen = max(maxlen, left - right + 1);
+        }
+        // 返回最大长度
+        return maxlen;
+    }
+};
