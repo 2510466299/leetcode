@@ -1,0 +1,14 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int lenth=nums.size();
+        for(int i=0;i<lenth;i++){
+            for(int j=i+1;j<lenth;j++){
+                if(nums[i]+nums[j]==target){
+                    return std::vector<int>{i, j};
+                }
+            }
+        }
+        return {};
+    }
+};
