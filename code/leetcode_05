@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int maxlen = 0;    // 记录最长回文子串的长度
+        int index = 0;     // 记录最长回文子串的起始索引
+        int slen = s.size();  // 字符串的长度
+
+        for (int i = 0; i < slen; i++) {
+            // 处理奇数长度的回文串，如 "aba"
+            int L = i, R = i;
+            // 当左右指针不越界且字符相等时，向两边扩展
+            while (L >= 0 && R < slen && s[L] == s[R]) {
+                // 如果找到更长的回文子串，更新 maxlen 和 index
+                if (R - L + 1 > maxlen) {
+                    maxlen = R - L + 1;
+                    index = L;
+                }
+                --L;  // 左指针左移
+                ++R;  // 右指针右移
+            }
+
+            // 处理偶数长度的回文串，如 "abba"
+            L = i, R = i + 1;
+            while (L >= 0 && R < slen && s[L] == s[R]) {
+                if (R - L + 1 > maxlen) {
+                    maxlen = R - L + 1;
+                    index = L;
+                }
+                --L;
+                ++R;
+            }
+        }
+        // 返回最长回文子串
+        return s.substr(index, maxlen);
+    }
+};
