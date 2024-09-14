@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        // 如果行数为1或者字符串长度小于等于行数，则直接返回原字符串
+        if (numRows == 1 || s.size() <= numRows) return s;
+
+        // 使用一个字符串数组来存储每一行的结果
+        vector<string> rows(numRows,);
+        int currentRow = 0;       // 当前正在填充的行
+        bool goingDown = false;   // 方向标志，初始假设是向上移动，遇到边界时改变方向
+
+        // 遍历字符串中的每个字符
+        for (char c : s) {
+            rows[currentRow] += c;  // 将当前字符添加到相应的行
+            // 当我们处于第一行或最后一行时，改变方向
+            if (currentRow == 0 || currentRow == numRows - 1) {
+                goingDown = !goingDown;
+            }
+            // 根据方向增加或减少行号
+            currentRow += goingDown ? 1 : -1;
+        }
+
+        // 将所有行合并成一个结果字符串
+        string result;
+        for (string row : rows) {
+            result += row;
+        }
+
+        return result;
+    }
+};
