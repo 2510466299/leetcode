@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        // 负数不可能是回文数
+        if (x < 0) return false;
+        
+        // 将整数转换为字符串
+        std::string str = std::to_string(x);
+        int left = 0;
+        int right = str.size() - 1;
+
+        // 使用双指针从字符串两端向中间遍历
+        while (left < right) {
+            if (str[left] != str[right]) {
+                return false;  // 如果不相等，直接返回false
+            }
+            ++left;
+            --right;
+        }
+
+        // 如果没有发现不相等的字符，则是回文
+        return true;
+    }
+};
