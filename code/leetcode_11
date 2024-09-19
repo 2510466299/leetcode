@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int left = 0;  // 初始化左指针
+        int right = height.size() - 1;  // 初始化右指针
+        int maxWater = 0;  // 用来存储最大水量
+        
+        // 当左指针小于右指针时，进行循环
+        while (left < right) {
+            // 计算当前容器的容量
+            int currentWater = min(height[left], height[right]) * (right - left);
+            maxWater = max(maxWater, currentWater);  // 更新最大水量
+            
+            // 移动指针，移动较小的那条线
+            if (height[left] < height[right]) {
+                left++;  // 左指针右移
+            } else {
+                right--;  // 右指针左移
+            }
+        }
+        
+        return maxWater;  // 返回最大水量
+    }
+};
