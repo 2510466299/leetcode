@@ -1,0 +1,30 @@
+// 定义一个结构体用于存储罗马数字与其对应的值
+struct RomanMap {
+    int value;
+    string symbol;
+};
+
+class Solution {
+public:
+string intToRoman(int num) {
+    // 定义罗马数字和对应的整数值
+    vector<RomanMap> roman_map = {
+        {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"}, 
+        {100, "C"}, {90, "XC"}, {50, "L"}, {40, "XL"}, 
+        {10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"}
+    };
+    
+    string result;
+    
+    // 从最大的罗马数字开始处理
+    for (const RomanMap& rm : roman_map) {
+        // 当num大于或等于当前罗马数字对应的值时，减去该值并添加相应的罗马字符
+        while (num >= rm.value) {
+            num -= rm.value;
+            result += rm.symbol;
+        }
+    }
+    
+    return result;
+}
+};
