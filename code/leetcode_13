@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        // 定义罗马数字和整数值的映射表
+        unordered_map<char, int> roman_map = {
+            {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50},
+            {'C', 100}, {'D', 500}, {'M', 1000}
+        };
+        
+        int sum = 0;  // 用于保存转换后的整数
+        int len = s.length();
+        
+        // 从左到右遍历字符串
+        for (int i = 0; i < len; ++i) {
+            // 如果当前字符小于下一个字符，使用减法规则
+            if (i + 1 < len && roman_map[s[i]] < roman_map[s[i + 1]]) {
+                sum -= roman_map[s[i]];  // 减去当前字符的值
+            } else {
+                sum += roman_map[s[i]];  // 累加当前字符的值
+            }
+        }
+        
+        return sum;  // 返回最终的整数结果
+    }
+};
