@@ -1,0 +1,41 @@
+class Solution {
+public:
+  int removeDuplicates(vector<int>& nums) {
+    // 如果数组长度小于等于2，直接返回其长度
+    if (nums.size() <= 2) {
+        return nums.size();
+    }
+    
+    // 慢指针，指向结果数组的末尾
+    int j = 1;  
+    
+    // 从第二个元素开始检查（前两个元素默认保留）
+    for (int i = 2; i < nums.size(); i++) {
+        // 如果当前元素与 j-1 位置的元素不相等，保留该元素
+        if (nums[i] != nums[j-1]) {
+            j++;  // 慢指针后移
+            nums[j] = nums[i];  // 更新元素
+        }
+    }
+    
+    // 返回数组新长度（j 是索引，新长度为 j+1）
+    return j + 1;
+}
+    
+};
+
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int k=2;
+        int len=0;
+        for(auto num:nums){
+            if(len<k||nums[len-k]!=num){
+                nums[len++]=num;
+            }
+        }
+return len;
+        }
+    
+};
