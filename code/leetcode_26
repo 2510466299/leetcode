@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        // 边界条件：如果数组为空，直接返回0
+        if (nums.empty()) return 0;
+
+        // slow指针用于标记唯一元素的位置
+        int slow = 0;
+
+        // 从第一个元素开始，遍历数组
+        for (int fast = 1; fast < nums.size(); ++fast) {
+            // 如果发现与前一个元素不同的元素
+            if (nums[fast] != nums[slow]) {
+                // 增加slow指针，并更新该位置为新的唯一元素
+                slow++;
+                nums[slow] = nums[fast];
+            }
+        }
+        // 返回唯一元素的数量，即slow指针+1的位置
+        return slow + 1;
+    }
+};
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.size() == 0) return 0;  
+
+        int unique_num = 1;
+        int len = nums.size();  
+
+        for (int i = 1; i < len; i++) {
+            if (nums[i] != nums[i - 1]) { 
+                nums[unique_num++] = nums[i]; 
+            }
+        }
+        return unique_num;
+    }
+};
