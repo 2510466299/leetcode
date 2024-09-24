@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate = nums[0]; // 初始化候选者
+        int count = 0; // 初始化计数器
+
+        // 遍历数组，应用摩尔投票法
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num; // 更新候选者
+            }
+            // 如果当前元素是候选者，增加计数；否则减少计数
+            count += (num == candidate) ? 1 : -1;
+        }
+
+        return candidate; // 返回最终候选者
+    }
+};
