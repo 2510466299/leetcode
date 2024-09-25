@@ -1,12 +1,16 @@
-void rotate(std::vector<int>& nums, int k) {
-    int n = nums.size();
-    k = k % n;  // 计算有效的k
-    if (k == 0) return;  // 如果k为0，直接返回
-
-    // 反转整个数组
-    reverse(nums, 0, n - 1);
-    // 反转前k个元素
-    reverse(nums, 0, k - 1);
-    // 反转后n-k个元素
-    reverse(nums, k, n - 1);
-}
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if(k==0)return;
+        auto reverse=[&](int i,int j){
+            while(i<j){
+                swap(nums[i++],nums[j--]);
+            }
+        };
+        int len=nums.size();
+        k%=len;
+        reverse(0,len-1);
+        reverse(0,k-1);
+        reverse(k,len-1);
+    }
+};
