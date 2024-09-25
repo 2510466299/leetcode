@@ -1,0 +1,12 @@
+void rotate(std::vector<int>& nums, int k) {
+    int n = nums.size();
+    k = k % n;  // 计算有效的k
+    if (k == 0) return;  // 如果k为0，直接返回
+
+    // 反转整个数组
+    reverse(nums, 0, n - 1);
+    // 反转前k个元素
+    reverse(nums, 0, k - 1);
+    // 反转后n-k个元素
+    reverse(nums, k, n - 1);
+}
