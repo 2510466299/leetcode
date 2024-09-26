@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+    int result=0;
+    int min_price=prices[0];
+    for(int ele:prices){
+        result=max(result,ele-min_price);
+        if(ele<min_price){
+            min_price=ele;
+        }
+    }
+    return result;
+}
+};
+
+int maxProfit(vector<int>& prices) {
+    // 初始化最低价格和最大利润
+    int minPrice = INT_MAX; // 使用最大整数初始化
+    int maxProfit = 0; // 最大利润初始为0
+    
+    // 遍历每一天的价格
+    for (int price : prices) {
+        // 更新最低价格
+        minPrice = min(minPrice, price);
+        // 计算当前利润
+        int currentProfit = price - minPrice;
+        // 更新最大利润
+        maxProfit = max(maxProfit, currentProfit);
+    }
+    
+    // 返回最大利润，如果为负则返回0
+    return maxProfit;
+}
