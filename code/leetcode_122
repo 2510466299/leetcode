@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<array<int, 2>> memo(n, {-1, -1}); // -1 表示还没有计算过
+        auto dfs = [&](auto&& dfs, int i, bool hold) -> int {
+            if (i < 0) {
+                return hold ? INT_MIN : 0;
+            }
+            int& res = memo[i][hold]; // 注意这里是引用
+            if (res != -1) {
+                return res; // 之前计算过
+            }
+            if (hold) {
+                return res = max(dfs(dfs, i - 1, true), dfs(dfs, i - 1, false) - prices[i]);
+            }
+            return res = max(dfs(dfs, i - 1, false), dfs(dfs, i - 1, true) + prices[i]);
+        };
+        return dfs(dfs, n - 1, false);
+    }
+};
