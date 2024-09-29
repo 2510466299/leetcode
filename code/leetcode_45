@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+    // 初始化变量：跳跃次数、当前跳跃能到达的最远位置、全局能到达的最远位置
+    int jumps = 0, current_end = 0, farthest = 0;
+    
+    // 遍历数组（不包括最后一个元素）
+    for (int i = 0; i < nums.size() - 1; i++) {
+        // 更新全局最远能到达的位置
+        farthest = max(farthest, i + nums[i]);
+        
+        // 如果当前索引达到当前跳跃的边界
+        if (i == current_end) {
+            jumps++;  // 需要进行一次跳跃
+            current_end = farthest;  // 更新当前跳跃的最远边界
+            
+            // 如果到达或超过了最后一个元素，跳出循环
+            if (current_end >= nums.size() - 1) {
+                break;
+            }
+        }
+    }
+    
+    return jumps;  // 返回最少的跳跃次数
+}
+
+};
