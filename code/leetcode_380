@@ -1,0 +1,46 @@
+class RandomizedSet {
+    private:
+    std::unordered_map<int,int>hasmap;
+    std::vector<int>elements;
+
+    public:
+        RandomizedSet() {}
+        
+        bool insert(int val) {
+            if(hasmap.find(val)!=hasmap.end()){
+                return false;
+            }
+            
+            elements.push_back(val);
+            hasmap[val]=elements.size()-1;
+            return true;
+        }
+        
+        bool remove(int val) {
+            if(hasmap.find(val)==hasmap.end()){
+                return false;
+            }
+            //将最后一个元素覆盖需要删除的元素，然后删除最后一个元素
+            int index=hasmap[val];
+            int lastindex=elements.size()-1;
+            elements[index]=elements[lastindex];
+            elements.pop_back();
+            hasmap[elements[index]]=index;
+            hasmap.erase(val);
+            return true;
+
+        }
+        
+        int getRandom() {
+            int index=rand()%elements.size();
+            return elements[index];
+        }
+};
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet* obj = new RandomizedSet();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
