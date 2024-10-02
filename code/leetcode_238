@@ -1,0 +1,23 @@
+class Solution {
+public:
+vector<int> productExceptSelf(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> answer(n, 1);  // 初始化结果数组，初始值为1
+
+    // 第一次遍历：计算前缀积
+    for (int i = 1; i < n; ++i) {
+        answer[i] = answer[i - 1] * nums[i - 1];  // 前缀积保存在 answer 数组中
+    }
+
+    // 变量保存后缀积，初始化为1
+    int suffixProduct = 1;
+
+    // 第二次遍历：计算后缀积并更新结果
+    for (int i = n - 1; i >= 0; --i) {
+        answer[i] *= suffixProduct;  // 当前 answer[i] = 前缀积 * 后缀积
+        suffixProduct *= nums[i];    // 更新后缀积
+    }
+
+    return answer;
+}
+};
