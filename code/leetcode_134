@@ -1,0 +1,43 @@
+class Solution {
+public:
+     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int total_gas = 0, total_cost = 0; // 总油量和总消耗量
+        int start = 0; // 记录起点
+        int current_gas = 0; // 当前油箱中的油量
+        
+        for (int i = 0; i < gas.size(); i++) {
+            total_gas += gas[i]; // 计算总油量
+            total_cost += cost[i]; // 计算总消耗
+            current_gas += gas[i] - cost[i]; // 计算当前油箱剩余油量
+            
+            // 如果当前油量不足以继续前进
+            if (current_gas < 0) {
+                start = i + 1; // 从下一个加油站作为新的起点
+                current_gas = 0; // 重置当前油量
+            }
+        }
+        
+        // 如果总油量小于总消耗，无法绕行一周
+        if (total_gas < total_cost) {
+            return -1;
+        }
+        
+        return start; // 返回起始加油站的索引
+    }
+};
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) 
+    {
+        int ans=0,v_gas=0,min_gas=0;
+        int len=gas.size();
+        for(int i=0;i<len;i++){
+            v_gas=v_gas+gas[i]-cost[i];
+            if(v_gas<min_gas){
+                min_gas=v_gas;
+                ans=i+1;
+            }
+        }
+        return v_gas<0?-1:ans;
+   }
+};
