@@ -1,0 +1,31 @@
+class Solution {
+public:
+    std::string reverseWords(std::string s) {
+        std::string ans = ""; // 用于存储结果字符串
+        int len = s.size() - 1; // 从字符串末尾开始遍历
+        
+        while (len >= 0) {
+            // 跳过末尾和单词间多余的空格
+            while (len >= 0 && s[len] == ' ') len--;
+            if (len < 0) break; // 如果越界，则跳出循环
+            
+            // 提取单个单词，存储到 tmp 中
+            std::string tmp = "";
+            while (len >= 0 && s[len] != ' ') {
+                tmp += s[len];
+                len--;
+            }
+            
+            // 将单词反转并添加到结果字符串 ans 中
+            reverse(tmp.begin(), tmp.end());
+            ans += tmp + " ";
+        }
+        
+        // 移除结果字符串末尾多余的空格
+        if (!ans.empty()) {
+            ans.pop_back();
+        }
+        
+        return ans;
+    }
+};
