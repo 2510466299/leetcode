@@ -1,0 +1,58 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+    vector<string> result;
+    int n = words.size();
+    int i = 0;
+    
+    // 遍历所有的单词
+    while (i < n) {
+        int lineLength = words[i].size();  // 当前行长度
+        int j = i + 1;  // 下一个单词的起始索引
+        
+        // 试图加入更多单词，确保行宽不超过 maxWidth
+        while (j < n && lineLength + words[j].size() + (j - i) <= maxWidth) {
+            lineLength += words[j].size();
+            j++;
+        }
+        
+        int gapCount = j - i - 1;  // 计算当前行中间的间隙数量
+        string line;
+        
+        // 判断当前行是否是最后一行或者只有一个单词的情况
+        if (j == n || gapCount == 0) {
+            // 左对齐
+            for (int k = i; k < j; k++) {
+                line += words[k];
+                if (k < j - 1) line += " ";
+            }
+            // 右侧填充空格
+            while (line.size() < maxWidth) {
+                line += " ";
+            }
+        } else {
+            // 居中对齐，计算空格分布
+            int totalSpaces = maxWidth - lineLength;
+            int spaceBetweenWords = totalSpaces / gapCount;
+            int extraSpaces = totalSpaces % gapCount;
+            
+            for (int k = i; k < j; k++) {
+                line += words[k];
+                if (k < j - 1) {
+                    // 插入标准空格数
+                    line += string(spaceBetweenWords, ' ');
+                    // 若有多余空格则分配给前面的间隙
+                    if (extraSpaces > 0) {
+                        line += " ";
+                        extraSpaces--;
+                    }
+                }
+            }
+        }
+        
+        result.push_back(line);
+        i = j;  // 移动到下一个单词
+    }
+    return result;
+}
+};
