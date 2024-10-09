@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        if (s.size() == 0) return true;  // 修复：空字符串应返回 true
+        int left = 0, right = s.size() - 1;
+        while (left < right) {
+            // 跳过左边的非字母数字字符
+            while (left < right && !(isdigit(s[left]) || isalpha(s[left]))) {
+                left++;
+            }
+            // 跳过右边的非字母数字字符
+            while (left < right && !(isdigit(s[right]) || isalpha(s[right]))) {
+                right--;
+            }
+            // 比较两端字符
+            if (tolower(s[left]) == tolower(s[right])) {
+                left++;
+                right--;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+};
