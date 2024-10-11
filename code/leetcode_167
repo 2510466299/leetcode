@@ -1,0 +1,13 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int right = numbers.size() - 1, left = 0;
+
+        while (numbers[right] + numbers[left] != target) {
+            (numbers[right] + numbers[left]) > target ? --right : ++left;
+        }
+
+        // 返回结果时需要从1开始索引，因此直接返回left+1和right+1
+        return {left + 1, right + 1};
+    }
+};
