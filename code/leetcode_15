@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        ranges::sort(nums); // 对数组进行排序
+        vector<vector<int>> ans;
+        int len = nums.size();
+
+        for (int i = 0; i < len - 2; i++) {
+            int x = nums[i];
+            int j = i + 1, k = len - 1;
+            
+            // 跳过重复元素，避免重复三元组
+            if (i > 0 && x == nums[i - 1]) continue;
+            
+            // 优化：提前判断是否可以结束或跳过当前循环
+            if (x + nums[i + 1] + nums[i + 2] > 0) break;
+            if (x + nums[len - 2] + nums[len - 1] < 0) continue;
+            
+            while (j < k) {
+                int s = x + nums[j] + nums[k];
+                if (s < 0) {
+                    ++j; // 当前和小于0，增加左指针以增大和
+                } else if (s > 0) {
+                    --k; // 当前和大于0，减小右指针以减小和
+                } else {
+                    ans.push_back({x, nums[j], nums[k]}); // 将三元组加入结果
+                    
+                    // 跳过重复的元素
+                    while (j < k && nums[j] == nums[j + 1]) ++j;
+                    while (j < k && nums[k] == nums[k - 1]) --k;
+                    
+                    ++j;
+                    --k;
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
