@@ -1,0 +1,60 @@
+class Solution {
+public:
+    vector<int> findSubstring(string inputString, vector<string>& wordList) {
+        vector<int> resultIndices;
+
+        // 获取相关变量
+        int inputLength = inputString.size();
+        int wordCount = wordList.size();
+        int wordLength = wordList[0].size();
+        int totalWordsLength = wordCount * wordLength;
+
+        // 如果 inputString 的长度小于所有单词的总长度，直接返回空向量
+        if (inputLength < totalWordsLength) return resultIndices;
+
+        // 统计 wordList 中每个单词的出现次数
+        unordered_map<string, int> wordFrequencyMap;
+        for (const string& word : wordList) {
+            wordFrequencyMap[word]++;
+        }
+
+        // 遍历所有可能的起点，进行滑动窗口匹配
+        for (int startIndex = 0; startIndex < wordLength; ++startIndex) {
+            unordered_map<string, int> currentWindowFrequencyMap;
+            int leftPointer = startIndex, rightPointer = startIndex, matchedWordCount = 0;
+
+            // 滑动窗口遍历 inputString
+            while (rightPointer + wordLength <= inputLength) {
+                // 获取当前窗口的单词
+                string currentWord = inputString.substr(rightPointer, wordLength);
+                rightPointer += wordLength;
+
+                // 如果是有效的单词，更新窗口中的单词频率
+                if (wordFrequencyMap.count(currentWord)) {
+                    currentWindowFrequencyMap[currentWord]++;
+                    matchedWordCount++;
+
+                    // 如果该单词的频率超过了 wordFrequencyMap 中的频率，则需要移动左指针
+                    while (currentWindowFrequencyMap[currentWord] > wordFrequencyMap[currentWord]) {
+                        string leftWord = inputString.substr(leftPointer, wordLength);
+                        currentWindowFrequencyMap[leftWord]--;
+                        matchedWordCount--;
+                        leftPointer += wordLength;
+                    }
+
+                    // 如果窗口中单词的数量等于 wordList 的数量，则找到一个结果
+                    if (matchedWordCount == wordCount) {
+                        resultIndices.emplace_back(leftPointer);
+                    }
+                } else {
+                    // 如果遇到无效单词，清空窗口并移动左指针
+                    currentWindowFrequencyMap.clear();
+                    matchedWordCount = 0;
+                    leftPointer = rightPointer;
+                }
+            }
+        }
+
+        return resultIndices;
+    }
+};
