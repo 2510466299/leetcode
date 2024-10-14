@@ -1,0 +1,44 @@
+class Solution{
+public:
+  string minWindow(string s, string t) {
+    // 定义两个哈希表：t_count存储t中字符需求，window_count存储当前窗口字符数量
+    unordered_map<char, int> t_count, window_count;
+    for (char c : t) t_count[c]++;
+    
+    int required = t_count.size(); // 需要匹配的不同字符数
+    int left = 0, right = 0; // 定义滑动窗口的左右指针
+    int formed = 0; // 当前匹配的字符数量
+    int min_len = INT_MAX, start = 0; // 最小子串长度和起始位置
+
+    while (right < s.size()) {
+        // 将字符添加到当前窗口
+        char c = s[right];
+        window_count[c]++;
+        
+        // 若当前字符满足了t中该字符的数量需求，则增加formed
+        if (t_count.count(c) && window_count[c] == t_count[c])
+            formed++;
+        
+        // 当所有字符都匹配时，尝试收缩窗口以获得最小子串
+        while (left <= right && formed == required) {
+            c = s[left];
+            
+            // 更新最小子串
+            if (right - left + 1 < min_len) {
+                min_len = right - left + 1;
+                start = left;
+            }
+            
+            // 收缩窗口，将左边字符移出窗口
+            window_count[c]--;
+            if (t_count.count(c) && window_count[c] < t_count[c])
+                formed--;
+            
+            left++;
+        }
+        right++;
+    }
+    
+    return min_len == INT_MAX ? "" : s.substr(start, min_len);
+}
+}
