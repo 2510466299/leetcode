@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+    vector<unordered_set<char>> rows(9); // 每行的集合
+    vector<unordered_set<char>> cols(9); // 每列的集合
+    vector<unordered_set<char>> boxes(9); // 每个3x3方格的集合
+
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            char num = board[i][j];
+            if (num == '.') continue; // 空格跳过
+
+            // 计算3x3方格的索引
+            int boxIndex = (i / 3) * 3 + (j / 3);
+
+            // 检查是否在当前行中已存在该数字
+            if (rows[i].count(num)) return false;
+            rows[i].insert(num); // 将数字插入行集合
+
+            // 检查是否在当前列中已存在该数字
+            if (cols[j].count(num)) return false;
+            cols[j].insert(num); // 将数字插入列集合
+
+            // 检查是否在当前3x3方格中已存在该数字
+            if (boxes[boxIndex].count(num)) return false;
+            boxes[boxIndex].insert(num); // 将数字插入方格集合
+        }
+    }
+    return true; // 所有条件均满足，返回true
+}
+};
