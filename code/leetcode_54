@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int left = 0, right = matrix[0].size() - 1, up = 0, down = matrix.size() - 1;
+        vector<int> ans;
+
+        while (true) {
+            // 遍历上边界
+            for (int i = left; i <= right; i++) {
+                ans.emplace_back(matrix[up][i]); // 使用 up 作为上边界
+            }
+            if (++up > down) break; // 缩小上边界，并检查是否超出
+
+            // 遍历右边界
+            for (int i = up; i <= down; i++) {
+                ans.emplace_back(matrix[i][right]);
+            }
+            if (--right < left) break; // 缩小右边界，并检查是否超出
+
+            // 遍历下边界
+            for (int i = right; i >= left; i--) {
+                ans.emplace_back(matrix[down][i]);
+            }
+            if (--down < up) break; // 缩小下边界，并检查是否超出
+
+            // 遍历左边界
+            for (int i = down; i >= up; i--) {
+                ans.emplace_back(matrix[i][left]);
+            }
+            if (++left > right) break; // 缩小左边界，并检查是否超出
+        }
+        return ans;
+    }
+};
