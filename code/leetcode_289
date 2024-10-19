@@ -1,0 +1,48 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int m = board.size();        // 行数
+        int n = board[0].size();     // 列数
+
+        // 方向数组，表示八个方向
+        vector<pair<int, int>> directions = {{-1, -1}, {-1, 0}, {-1, 1}, 
+                                             {0, -1}, {0, 1}, 
+                                             {1, -1}, {1, 0}, {1, 1}};
+        
+        // 遍历每个细胞
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                // 统计周围的活细胞数量
+                int liveNeighbors = 0;
+                for (auto dir : directions) {
+                    int x = i + dir.first, y = j + dir.second;
+                    if (x >= 0 && x < m && y >= 0 && y < n && abs(board[x][y]) == 1) {
+                        // 使用 abs(board[x][y])，因为 -1 仍然代表之前是活细胞
+                        liveNeighbors++;
+                    }
+                }
+                
+                // 根据规则更新状态
+                if (board[i][j] == 1 && (liveNeighbors < 2 || liveNeighbors > 3)) {
+                    // 活细胞死亡，标记为 -1
+                    board[i][j] = -1;
+                }
+                if (board[i][j] == 0 && liveNeighbors == 3) {
+                    // 死细胞复活，标记为 2
+                    board[i][j] = 2;
+                }
+            }
+        }
+        
+        // 第二遍遍历，将标记的状态转换为最终状态
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == -1) {
+                    board[i][j] = 0;  // 将要死亡的细胞更新为死细胞
+                } else if (board[i][j] == 2) {
+                    board[i][j] = 1;  // 将要复活的细胞更新为活细胞
+                }
+            }
+        }
+    }
+};
