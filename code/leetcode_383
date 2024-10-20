@@ -1,0 +1,19 @@
+bool canConstruct(string ransomNote, string magazine) {
+    // 用于统计magazine中字符的频次
+    vector<int> magazineCount(26, 0);
+
+    // 统计magazine中各个字符出现的次数
+    for (char c : magazine) {
+        magazineCount[c - 'a']++;
+    }
+
+    // 遍历ransomNote，检查magazine是否有足够的字符
+    for (char c : ransomNote) {
+        if (magazineCount[c - 'a'] == 0) {
+            return false; // 如果某个字符的数量不足，则返回false
+        }
+        magazineCount[c - 'a']--; // 使用一个字符
+    }
+
+    return true; // 所有字符的需求都能满足
+}
