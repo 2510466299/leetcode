@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+    // 如果长度不相等，直接返回false
+    if (s.length() != t.length()) {
+        return false;
+    }
+    
+    // 创建两个哈希表，分别用于s到t和t到s的映射
+    unordered_map<char, char> s_to_t;
+    unordered_map<char, char> t_to_s;
+
+    // 遍历字符串s和t
+    for (int i = 0; i < s.length(); ++i) {
+        char s_char = s[i];
+        char t_char = t[i];
+        
+        // 检查s到t的映射
+        if (s_to_t.find(s_char) != s_to_t.end()) {
+            // 如果已经有映射关系但不匹配，返回false
+            if (s_to_t[s_char] != t_char) {
+                return false;
+            }
+        } else {
+            // 如果没有映射关系，则建立映射
+            s_to_t[s_char] = t_char;
+        }
+
+        // 检查t到s的映射
+        if (t_to_s.find(t_char) != t_to_s.end()) {
+            // 如果已经有映射关系但不匹配，返回false
+            if (t_to_s[t_char] != s_char) {
+                return false;
+            }
+        } else {
+            // 如果没有映射关系，则建立映射
+            t_to_s[t_char] = s_char;
+        }
+    }
+
+    // 如果遍历完没有冲突，说明是同构的
+    return true;
+}
+
+};
