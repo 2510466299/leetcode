@@ -1,0 +1,47 @@
+class Solution {
+public:
+    std::vector<std::string> splitStringBySpace(const std::string& str) {
+        std::vector<std::string> result;
+        std::istringstream iss(str);
+        std::string word;
+
+        while (iss >> word) {
+            result.push_back(word);
+        }
+
+        return result;
+    }
+
+    bool wordPattern(std::string pattern, std::string s) {
+        auto words = splitStringBySpace(s);
+        if (pattern.length() != words.size()) {
+            return false;
+        }
+        
+        std::unordered_map<char, std::string> char_to_word;
+        std::unordered_map<std::string, char> word_to_char;
+
+        for (int i = 0; i < pattern.length(); ++i) {
+            char p_char = pattern[i];
+            std::string word = words[i];
+            
+            if (char_to_word.find(p_char) != char_to_word.end()) {
+                if (char_to_word[p_char] != word) {
+                    return false;
+                }
+            } else {
+                char_to_word[p_char] = word;
+            }
+
+            if (word_to_char.find(word) != word_to_char.end()) {
+                if (word_to_char[word] != p_char) {
+                    return false;
+                }
+            } else {
+                word_to_char[word] = p_char;
+            }
+        }
+
+        return true;
+    }
+};
