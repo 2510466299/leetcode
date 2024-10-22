@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        // 如果长度不相等，直接返回 false
+        if (s.size() != t.size()) return false;
+
+        // 初始化字母计数数组
+        vector<int> count(26, 0);
+
+        // 统计 s 中每个字母的出现次数
+        for (char c : s) {
+            count[c - 'a']++;
+        }
+
+        // 减去 t 中每个字母的出现次数
+        for (char c : t) {
+            count[c - 'a']--;
+            // 如果在任何时候计数变为负数，说明 t 包含了 s 中没有的字母
+            if (count[c - 'a'] < 0) return false;
+        }
+
+        // 检查是否所有计数都为0
+        for (int cnt : count) {
+            if (cnt != 0) return false;
+        }
+
+        return true;
+    }
+};
