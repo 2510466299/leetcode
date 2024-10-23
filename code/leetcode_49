@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> ans; // 存储最终结果的数组
+        unordered_map<string, vector<string>> map; // 哈希表，键为字母频率，值为异位词列表
+        
+        // 遍历输入数组
+        for (auto &str : strs) {
+            string count(26, 0); // 初始化字母频率计数器
+            // 计算每个字母的频率
+            for (auto &c : str) {
+                count[c - 'a']++;
+            }
+            // 将当前字符串添加到哈希表中对应频率的列表
+            map[count].push_back(str);
+        }
+        
+        // 将哈希表中的异位词列表添加到结果数组
+        for (auto &pair : map) {
+            ans.push_back(pair.second);
+        }
+        
+        return ans; // 返回结果数组
+    }
+};
