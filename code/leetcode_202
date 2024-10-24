@@ -1,0 +1,64 @@
+class Solution {
+public:
+    
+// 定义一个辅助函数来计算下一个数字
+int get_next(int number) {
+    int total_sum = 0; // 初始化总和为0
+    while (number > 0) {
+        int digit = number % 10; // 获取当前最低位的数字
+        total_sum += digit * digit; // 计算该位数字的平方并累加到总和中
+        number /= 10; // 移除当前最低位
+    }
+    return total_sum; // 返回计算出的总和
+}
+
+// 检查一个数字是否是快乐数字
+bool isHappy(int n) {
+    std::set<int> seen; // 使用集合来存储已经见过的数字，用于检测循环
+
+    while (n != 1) { // 当数字不是1时继续循环
+        if (seen.find(n) != seen.end()) {
+            // 如果数字已经在集合中，说明出现了循环，因此它不是一个快乐数字
+            return false;
+        }
+        seen.insert(n); // 将当前数字插入集合中
+        n = get_next(n); // 计算下一个数字
+    }
+
+    // 如果循环结束且数字变为1，则它是一个快乐数字
+    return true;
+}
+
+};
+
+class Solution {
+public:
+    
+// 计算下一个数字
+int getNext(int n) {
+    int sum = 0;
+    while (n > 0) {
+        int digit = n % 10;
+        sum += digit * digit;
+        n /= 10;
+    }
+    return sum;
+}
+
+// 判断是否为快乐数
+bool isHappy(int n) {
+    int slow = n, fast = getNext(n);
+    while (fast != 1 && slow != fast) {
+        slow = getNext(slow);
+        fast = getNext(getNext(fast));
+    }
+    return fast == 1;
+}
+
+int main() {
+    int n = 19;
+    std::cout << "输入：" << n << "，输出：" << (isHappy(n) ? "true" : "false") << std::endl;
+    return 0;
+}
+
+};
