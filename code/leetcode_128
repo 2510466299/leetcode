@@ -1,0 +1,26 @@
+class Solution {
+public:
+int longestConsecutive(std::vector<int>& nums) {
+    std::unordered_set<int> elements(nums.begin(), nums.end()); // O(n)
+    int longest_sequence = 0;
+
+    for (int num : nums) { // O(n)
+        // 如果num是连续序列的开始
+        if (elements.find(num - 1) == elements.end()) {
+            int current_num = num;
+            int current_sequence = 1;
+
+            // 计算从num开始的连续序列长度
+            while (elements.find(current_num + 1) != elements.end()) {
+                current_num++;
+                current_sequence++;
+            }
+
+            // 更新最长连续序列长度
+            longest_sequence = std::max(longest_sequence, current_sequence);
+        }
+    }
+
+    return longest_sequence;
+}
+};
