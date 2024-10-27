@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        std::vector<std::string> result;
+    int i = 0;
+    while (i < nums.size()) {
+        int start = i;
+        // 找到当前区间的结束位置
+        while (i + 1 < nums.size() && nums[i + 1] == nums[i] + 1) {
+            i++;
+        }
+        // 判断区间是单个数字还是连续区间
+        if (start == i) {
+            result.push_back(std::to_string(nums[start]));
+        } else {
+            result.push_back(std::to_string(nums[start]) + "->" + std::to_string(nums[i]));
+        }
+        // 移动到下一个区间
+        i++;
+    }
+    return result;
+    }
+};
