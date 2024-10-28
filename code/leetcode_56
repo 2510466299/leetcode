@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if (intervals.empty()) return {};
+
+    // 按照区间的起始值进行排序
+    std::sort(intervals.begin(), intervals.end(), [](const std::vector<int>& a, const std::vector<int>& b) {
+        return a[0] < b[0];
+    });
+
+    std::vector<std::vector<int>> merged;
+    for (const auto& interval : intervals) {
+        // 如果结果数组为空，或者当前区间的起始值大于结果数组中最后一个区间的结束值，则不重叠
+        if (merged.empty() || merged.back()[1] < interval[0]) {
+            merged.push_back(interval);
+        } else {
+            // 否则，它们重叠，更新结果数组中最后一个区间的结束值
+            merged.back()[1] = std::max(merged.back()[1], interval[1]);
+        }
+    }
+    return merged;
+    }
+};
