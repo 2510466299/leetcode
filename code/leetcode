@@ -1,0 +1,25 @@
+class Solution {
+public:
+    std::string simplifyPath(std::string path) {
+    std::vector<std::string> stack;
+    std::istringstream iss(path);
+    std::string token;
+
+    while (getline(iss, token, '/')) {
+        if (token == "..") {
+            if (!stack.empty()) {
+                stack.pop_back();
+            }
+        } else if (token != "." && !token.empty()) {
+            stack.push_back(token);
+        }
+    }
+
+    std::string result;
+    for (const auto& dir : stack) {
+        result += "/" + dir;
+    }
+
+    return result.empty() ? "/" : result;
+}
+};
