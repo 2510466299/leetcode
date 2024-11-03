@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int evalRPN(std::vector<std::string>& tokens) {
+    std::stack<int> stack;
+    for (const std::string& token : tokens) {
+        if (token == "+" || token == "-" || token == "*" || token == "/") {
+            int op2 = stack.top(); stack.pop();
+            int op1 = stack.top(); stack.pop();
+            if (token == "+") stack.push(op1 + op2);
+            else if (token == "-") stack.push(op1 - op2);
+            else if (token == "*") stack.push(op1 * op2);
+            else if (token == "/") stack.push(op1 / op2); // 注意这里默认op2不为0
+        } else {
+            std::stringstream ss(token);
+            int num;
+            ss >> num;
+            stack.push(num);
+        }
+    }
+    return stack.top();
+}
+};
