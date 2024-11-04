@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int calculate(string s) {
+        int n = s.length();
+        stack<int> ops;
+        ops.push(1); // 初始符号为正
+        int sign = 1; // 当前符号
+        int result = 0; // 结果
+        int i = 0;
+        while (i < n) {
+            if (s[i] == ' ') {
+                // 跳过空格
+                i++;
+            } else if (s[i] == '+') {
+                // 加号，符号为栈顶符号 * 1
+                sign = ops.top() * 1;
+                i++;
+            } else if (s[i] == '-') {
+                // 减号，符号为栈顶符号 * -1
+                sign = ops.top() * -1;
+                i++;
+            } else if (s[i] == '(') {
+                // 左括号，将当前符号压栈
+                ops.push(sign);
+                i++;
+            } else if (s[i] == ')') {
+                // 右括号，弹出栈顶符号
+                ops.pop();
+                i++;
+            } else {
+                // 数字，读取完整的数字
+                long num = 0;
+                while (i < n && isdigit(s[i])) {
+                    num = num * 10 + (s[i] - '0');
+                    i++;
+                }
+                // 更新结果
+                result += sign * num;
+            }
+        }
+        return result;
+    }
+};
