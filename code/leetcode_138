@@ -1,0 +1,53 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head) return nullptr;
+
+        // Step 1: 在每个原节点后插入一个新节点
+        Node* curr = head;
+        while (curr) {
+            Node* newNode = new Node(curr->val);
+            newNode->next = curr->next;
+            curr->next = newNode;
+            curr = newNode->next;
+        }
+
+        // Step 2: 设置新节点的 random 指针
+        curr = head;
+        while (curr) {
+            if (curr->random) {
+                curr->next->random = curr->random->next;
+            }
+            curr = curr->next->next;
+        }
+
+        // Step 3: 拆分链表
+        curr = head;
+        Node* newHead = head->next;
+        while (curr) {
+            Node* newNode = curr->next;
+            curr->next = newNode->next;
+            if (newNode->next) {
+                newNode->next = newNode->next->next;
+            }
+            curr = curr->next;
+        }
+
+        return newHead;
+    }
+};
