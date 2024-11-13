@@ -1,0 +1,45 @@
+class LRUCache {
+private:
+    int capacity; // 缓存的容量
+    unordered_map<int, list<pair<int, int>>::iterator> cache; // 哈希表：键 -> 链表节点迭代器
+    list<pair<int, int>> lst; // 双向链表：存储键值对，头部是最近使用，尾部是最久未使用
+
+public:
+    // 构造函数，初始化缓存容量
+    LRUCache(int capacity) : capacity(capacity) {}
+
+    // 获取值：如果键存在，则返回值并将节点移至链表头部；否则返回 -1
+    int get(int key) {
+        if (cache.find(key) == cache.end()) {
+            return -1; // 不存在返回 -1
+        }
+        // 将访问的节点移到链表头部
+        lst.splice(lst.begin(), lst, cache[key]);
+        return cache[key]->second; // 返回对应的值
+    }
+
+    // 插入或更新键值对：如果容量已满则删除尾部最久未使用的节点
+    void put(int key, int value) {
+        if (cache.find(key) != cache.end()) {
+            // 如果键已存在，更新值并移至头部
+            cache[key]->second = value;
+            lst.splice(lst.begin(), lst, cache[key]);
+            return;
+        }
+        if (lst.size() == capacity) {
+            // 如果达到容量，移除链表尾部节点（最久未使用）
+            cache.erase(lst.back().first); // 从哈希表中删除尾部节点的键
+            lst.pop_back(); // 从链表中删除尾部节点
+        }
+        // 插入新节点到链表头部并更新哈希表
+        lst.emplace_front(key, value);
+        cache[key] = lst.begin();
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
