@@ -1,0 +1,46 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if (!root) return nullptr;
+
+        Node* curr = root; // 当前层的起始节点
+        while (curr) {
+            Node dummy(0); // 下一层的起始节点
+            Node* tail = &dummy; // 用于连接下一层的指针
+
+            // 遍历当前层
+            while (curr) {
+                if (curr->left) { 
+                    tail->next = curr->left; // 链接左子节点
+                    tail = tail->next;
+                }
+                if (curr->right) { 
+                    tail->next = curr->right; // 链接右子节点
+                    tail = tail->next;
+                }
+                curr = curr->next; // 移动到当前层的下一个节点
+            }
+            // 更新到下一层
+            curr = dummy.next;
+        }
+        return root;
+    }
+};
