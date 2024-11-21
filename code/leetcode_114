@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        TreeNode* current = root; // 当前处理的节点
+
+        while (current) {
+            // 如果有左子树
+            if (current->left) {
+                // 找到左子树的最右节点
+                TreeNode* rightMost = current->left;
+                while (rightMost->right) {
+                    rightMost = rightMost->right;
+                }
+                // 将当前节点的右子树接到左子树的最右节点的右侧
+                rightMost->right = current->right;
+                // 将左子树移动到右侧
+                current->right = current->left;
+                current->left = nullptr; // 左子树置空
+            }
+            // 移动到下一个节点
+            current = current->right;
+        }
+    }
+};
