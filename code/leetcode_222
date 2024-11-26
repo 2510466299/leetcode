@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    // 辅助函数：计算树的深度
+int computeDepth(TreeNode* node) {
+    int depth = 0;
+    while (node) {
+        depth++;
+        node = node->left; // 完全二叉树的左子树可以确定深度
+    }
+    return depth;
+}
+
+// 主函数：计算完全二叉树的节点个数
+int countNodes(TreeNode* root) {
+    if (!root) return 0; // 空树返回 0
+
+    // 计算左子树和右子树的高度
+    int leftDepth = computeDepth(root->left);
+    int rightDepth = computeDepth(root->right);
+
+    if (leftDepth == rightDepth) {
+        // 左子树是满二叉树，节点数为 2^leftDepth - 1，加上根节点再递归右子树
+        return (1 << leftDepth) + countNodes(root->right);
+    } else {
+        // 右子树是满二叉树，节点数为 2^rightDepth - 1，加上根节点再递归左子树
+        return (1 << rightDepth) + countNodes(root->left);
+    }
+}
+};
