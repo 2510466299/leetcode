@@ -1,0 +1,52 @@
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        // 创建邻接表
+        vector<vector<int>> graph(numCourses);
+        // 创建状态数组：0 - 未访问，1 - 正在访问，2 - 已访问
+        vector<int> visited(numCourses, 0);
+        
+        // 构建图
+        for (const auto& prereq : prerequisites) {
+            graph[prereq[1]].push_back(prereq[0]);
+        }
+ 
+        // 深度优先搜索（DFS）判断是否有环
+        for (int i = 0; i < numCourses; ++i) {
+            if (visited[i] == 0 && !dfs(graph, visited, i)) {
+                return false; // 如果找到环，则返回 false
+            }
+        }
+ 
+        return true; // 如果没有环，则返回 true
+    }
+ 
+private:
+    // DFS递归函数
+    bool dfs(const vector<vector<int>>& graph, vector<int>& visited, int node) {
+        // 如果当前节点正在访问中，说明有环
+        if (visited[node] == 1) {
+            return false;
+        }
+        
+        // 如果当前节点已经访问过，直接返回
+        if (visited[node] == 2) {
+            return true;
+        }
+        
+        // 标记为正在访问
+        visited[node] = 1;
+        
+        // 递归访问所有相邻的节点
+        for (int neighbor : graph[node]) {
+            if (!dfs(graph, visited, neighbor)) {
+                return false;
+            }
+        }
+        
+        // 标记为已访问
+        visited[node] = 2;
+        
+        return true;
+    }
+};
