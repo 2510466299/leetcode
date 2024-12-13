@@ -1,0 +1,37 @@
+class Solution {
+public:
+   // 广度优先搜索算法实现
+int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+    unordered_set<string> dict(wordList.begin(), wordList.end());
+    // 如果目标单词不在字典中，直接返回 0
+    if (dict.find(endWord) == dict.end()) return 0;
+
+    // 初始化队列用于 BFS
+    queue<pair<string, int>> q;
+    q.push({beginWord, 1}); // 存入起始单词和步数
+
+    // 开始 BFS
+    while (!q.empty()) {
+        auto [currentWord, steps] = q.front();
+        q.pop();
+
+        // 遍历当前单词的每个字符位置
+        for (int i = 0; i < currentWord.size(); i++) {
+            string tempWord = currentWord;
+            for (char c = 'a'; c <= 'z'; c++) {
+                tempWord[i] = c; // 替换字符
+                // 如果是目标单词，返回步数 + 1
+                if (tempWord == endWord) return steps + 1;
+
+                // 如果新单词在字典中，加入队列并从字典中移除
+                if (dict.find(tempWord) != dict.end()) {
+                    q.push({tempWord, steps + 1});
+                    dict.erase(tempWord);
+                }
+            }
+        }
+    }
+    // 未找到路径
+    return 0;
+}
+};
