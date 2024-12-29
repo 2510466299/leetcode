@@ -1,0 +1,46 @@
+
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        if (board.empty() || word.empty()) return false;
+        int m = board.size(), n = board[0].size();
+        
+        // 遍历每个格子作为起点
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                // 从当前位置开始进行 DFS 搜索
+                if (dfs(board, word, i, j, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+private:
+    // DFS 搜索函数
+    bool dfs(vector<vector<char>>& board, string& word, int i, int j, int index) {
+        // 如果当前索引等于 word 的长度，表示已经匹配完所有字符
+        if (index == word.size()) return true;
+        
+        // 边界检查和字符匹配检查
+        if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || board[i][j] != word[index]) {
+            return false;
+        }
+        
+        // 保存当前格子的字符，标记为已访问
+        char temp = board[i][j];
+        board[i][j] = '#'; // 访问标记
+        
+        // 尝试在四个方向上进行 DFS
+        bool found = dfs(board, word, i + 1, j, index + 1) ||
+                     dfs(board, word, i - 1, j, index + 1) ||
+                     dfs(board, word, i, j + 1, index + 1) ||
+                     dfs(board, word, i, j - 1, index + 1);
+        
+        // 回溯：恢复当前格子的字符
+        board[i][j] = temp;
+        
+        return found;
+    }
+};
